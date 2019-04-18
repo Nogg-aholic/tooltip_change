@@ -38,8 +38,10 @@ class Item extends MX_Controller
 		}
 		else
 		{
-			$item = $this->template->loadPage("ajax.tpl", array('module' => 'item', 'id' => $id, 'realm' => $realm, 'icon' => $icon));
-		}
+            $xml = simplexml_load_string(file_get_contents("https://db.noggaholic.de/?item=".$id."&xml"));
+            $itemHtmlTooltip = $xml->item->htmlTooltip;
+            $item = $this->template->loadPage("ajax.tpl", array('module' => 'item', 'id' => $id, 'realm' => $realm, 'icon' => $icon, 'tooltip' => $itemHtmlTooltip));
+        }
 
 		$content = $this->template->loadPage("item.tpl", array('module' => 'item', 'item' => $item, 'icon' => $icon));
 
